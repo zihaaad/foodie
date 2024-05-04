@@ -2,7 +2,7 @@
   padding: 20px 0px;
   display: flex;
   width: 80%;
-  margin: 0.5rem auto;
+  margin: 0 auto;
   justify-content: space-between;
   align-items: center;
 }
@@ -84,6 +84,10 @@
 }
 
 @media (max-width: 900px) {
+  .navbar {
+    width: 90%;
+    margin: 0 auto;
+  }
   .navbar .logo {
     width: 120px;
   }
