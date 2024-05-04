@@ -1,38 +1,39 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {assets} from "../../utils/assets";
 import "./Navbar.css";
+import {Link, useLocation} from "react-router-dom";
 
 const Navbar = () => {
-  const [menu, setMenu] = useState("menu");
+  const {pathname} = useLocation();
+  const [menu, setMenu] = useState();
+
+  useEffect(() => {
+    return setMenu(pathname);
+  }, [pathname]);
+
   return (
     <nav className="navbar">
       <img src={assets.logo} alt="logo" />
       <ul className="navbar-menu">
-        <li
-          onClick={() => setMenu("home")}
-          className={menu === "home" ? "active" : ""}>
-          Home
+        <li className={menu === "/" ? "active" : ""}>
+          <Link to={"/"}>Home</Link>
         </li>
-        <li
-          onClick={() => setMenu("menu")}
-          className={menu === "menu" ? "active" : ""}>
-          Menu
+        <li className={menu === "/menu" ? "active" : ""}>
+          <Link to={"/menu"}>Menu</Link>
         </li>
-        <li
-          onClick={() => setMenu("mobile-app")}
-          className={menu === "mobile-app" ? "active" : ""}>
-          Mobile App
+        <li className={menu === "mobile-app" ? "active" : ""}>
+          <Link to={"/"}>Mobile App</Link>
         </li>
-        <li
-          onClick={() => setMenu("contact-us")}
-          className={menu === "contact-us" ? "active" : ""}>
-          Contact Us
+        <li className={menu === "/contact-us" ? "active" : ""}>
+          <Link to={"/"}>Contact Us</Link>
         </li>
       </ul>
       <div className="navbar-right">
         <img src={assets.search_icon} alt="" />
         <div className="navbar-search-icon">
-          <img src={assets.basket_icon} alt="" />
+          <Link to={"/cart"}>
+            <img src={assets.basket_icon} alt="" />
+          </Link>
           <div className="dot"></div>
         </div>
         <button>Sign In</button>
