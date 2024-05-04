@@ -5,7 +5,7 @@
 }
 
 .explore-menu h1 {
-  color: #262626;
+  color: #262626ec;
   font-size: 2.5rem;
   font-weight: 500;
 }
@@ -56,4 +56,15 @@
   border: 3px solid tomato;
   box-shadow: tomato 0 0 10px;
   padding: 2px;
+}
+
+@media (max-width: 1050px) {
+  .explore-menu h1 {
+    font-size: 2rem;
+  }
+
+  .explore-menu-text {
+    max-width: 100%;
+    font-size: 1.1rem;
+  }
 }
