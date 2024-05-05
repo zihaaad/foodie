@@ -5,14 +5,14 @@ import fs from "fs";
 
 const addFood = async (req, res) => {
   const {name, description, price, category} = req.body;
-  let image_filename = `${req.file.filename}`;
+  let image = `${req.file.filename}`;
 
   const food = new foodModel({
     name,
     description,
     price,
     category,
-    image: image_filename,
+    image,
   });
 
   try {
@@ -23,6 +23,7 @@ const addFood = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    fs.unlink(`uploads/${image}`, () => {});
     res.json({
       success: false,
       message: "Failed to Add Food",
@@ -48,4 +49,22 @@ const listFood = async (req, res) => {
   }
 };
 
-export {addFood, listFood};
+const removeFood = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const food = await foodModel.findById(id);
+
+    fs.unlink(`uploads/${food.image}`, () => {});
+    await foodModel.findByIdAndDelete(id);
+
+    res.json({
+      success: true,
+      message: "Food is Removed Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({success: false, message: "Failed To Remove Food"});
+  }
+};
+
+export {addFood, listFood, removeFood};
