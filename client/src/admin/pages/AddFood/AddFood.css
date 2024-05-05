@@ -3,7 +3,6 @@
   margin-left: max(5vw, 25px);
   margin-top: 50px;
   color: #6d6d6d;
-  font-size: 16px;
 }
 
 .add-food form {
@@ -22,6 +21,7 @@
 
 .add-product-name input,
 .add-product-description textarea {
+  font-size: 1.1rem;
   padding: 10px;
 }
 
@@ -32,12 +32,14 @@
 
 .add-category-price select,
 .add-category-price input {
-  max-width: 200px;
+  font-size: 1.1rem;
+  max-width: 120px;
   padding: 10px;
 }
 
 .add-btn {
   max-width: 120px;
+  font-size: 1rem;
   padding: 10px;
   border: none;
   border-radius: 5px;

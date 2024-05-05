@@ -3,10 +3,9 @@ import {adminAssets} from "../../utils/assets";
 import "./AddFood.css";
 import axios from "axios";
 import {toast} from "react-toastify";
+import {url} from "../../../utils/utils";
 
 const AddFood = () => {
-  const url = "http://localhost:4000";
-  console.log(url);
   const [image, setImage] = useState(false);
   const [data, setData] = useState({
     name: "",
