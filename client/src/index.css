@@ -17,9 +17,13 @@ a {
   color: inherit;
 }
 
-.app {
+.root-conent {
   width: 80%;
   margin: 0 auto;
+}
+
+.admin-content {
+  display: flex;
 }
 
 @keyframes fadeIn {
