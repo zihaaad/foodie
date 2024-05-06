@@ -2,7 +2,6 @@ import foodModel from "../models/food.model.js";
 import fs from "fs";
 
 // add food item
-
 const addFood = async (req, res) => {
   const {name, description, price, category} = req.body;
   let image = `${req.file.filename}`;
