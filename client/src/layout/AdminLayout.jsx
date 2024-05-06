@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const AdminLayout = () => {
   return (
-    <div>
+    <>
       <ToastContainer />
       <Navbar />
       <hr />
@@ -15,6 +15,6 @@ export const AdminLayout = () => {
         <Sidebar />
         <Outlet />
       </div>
-    </div>
+    </>
   );
 };
