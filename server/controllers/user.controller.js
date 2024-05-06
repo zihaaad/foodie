@@ -3,7 +3,39 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import {generateToken} from "../utils/generateToken.js";
 
-const loginUser = async (req, res) => {};
+const loginUser = async (req, res) => {
+  const {email, password} = req.body;
+  try {
+    const user = await userModel.findOne({email});
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User Doesn't Exist",
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      return res.json({
+        success: false,
+        message: "Invalid Credentials",
+      });
+    }
+
+    const token = generateToken(user._id);
+    res.json({
+      success: true,
+      message: "User Logged In Successfully",
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      success: false,
+      message: "Failed To Login",
+    });
+  }
+};
 
 const registerUser = async (req, res) => {
   const {name, password, email} = req.body;
