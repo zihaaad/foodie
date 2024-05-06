@@ -1,10 +1,11 @@
 import {useContext} from "react";
 import "./Cart.css";
 import {StoreContext} from "../../context/StoreContext";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {url} from "../../utils/utils";
 
 const Cart = () => {
-  const {cartItems, food_list, removeFromCart, getTotalCartAmmount} =
+  const {cartItems, foodList, removeFromCart, getTotalCartAmmount} =
     useContext(StoreContext);
 
   const navigate = useNavigate();
@@ -12,34 +13,33 @@ const Cart = () => {
   return (
     <section className="cart">
       <div className="cart-item">
-        <div className="cart-items-title">
-          <p>Items</p>
-          <p>Title</p>
-          <p>Price</p>
-          <p>Quantity</p>
-          <p>Total</p>
-          <p>Remove</p>
-        </div>
-        <br />
-        <hr />
-        {!getTotalCartAmmount() && (
-          <div
-            style={{
-              textAlign: "center",
-              margin: "2rem 0",
-              fontWeight: "500",
-              fontSize: "1.4rem",
-            }}>
-            Your Cart is Empty
+        {!getTotalCartAmmount() || (
+          <div className="cart-items-title">
+            <p>Items</p>
+            <p>Title</p>
+            <p>Price</p>
+            <p>Quantity</p>
+            <p>Total</p>
+            <p>Remove</p>
           </div>
         )}
-
-        {food_list.map((item, idx) => {
+        {!getTotalCartAmmount() && (
+          <div className="empty-cart">
+            <p>Your Cart is Empty</p>
+            <Link to={"/"}>Continue Ordering</Link>
+          </div>
+        )}
+        <br />
+        <hr />
+        {foodList?.map((item, idx) => {
           if (cartItems[item._id] > 0) {
             return (
               <div>
                 <div key={idx} className="cart-items-title cart-items-item">
-                  <img src={item.image} alt="cart-item-image" />
+                  <img
+                    src={`${url}/images/${item.image}`}
+                    alt="cart-item-image"
+                  />
                   <p>{item.name}</p>
                   <p>${item.price}</p>
                   <p>{cartItems[item._id]}</p>

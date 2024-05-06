@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {adminAssets} from "../../utils/assets";
 import "./AddFood.css";
 import axios from "axios";
@@ -7,6 +7,7 @@ import {url} from "../../../utils/utils";
 
 const AddFood = () => {
   const [image, setImage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -21,6 +22,7 @@ const AddFood = () => {
   };
 
   const onSubmitHandler = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     let formData = new FormData();
 
@@ -35,8 +37,11 @@ const AddFood = () => {
       .then((res) => {
         toast.success(res.data.message);
         setData({name: "", description: "", price: "", category: "Salad"});
+        setImage(false);
+        setIsLoading(false);
       })
       .catch((err) => {
+        setIsLoading(false);
         toast.error("Failed to add food!");
         console.log(err);
       });
@@ -110,7 +115,7 @@ const AddFood = () => {
             />
           </div>
         </div>
-        <button type="submit" className="add-btn">
+        <button disabled={isLoading} type="submit" className="add-btn">
           Add Product
         </button>
       </form>

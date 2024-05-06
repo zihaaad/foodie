@@ -2,6 +2,7 @@ import {useContext} from "react";
 import {assets} from "../../utils/assets";
 import "./FoodItem.css";
 import {StoreContext} from "../../context/StoreContext";
+import {url} from "../../utils/utils";
 
 const FoodItem = ({item}) => {
   const {cartItems, addToCart, removeFromCart} = useContext(StoreContext);
@@ -10,7 +11,11 @@ const FoodItem = ({item}) => {
   return (
     <div className="food-item" id="food-item">
       <div className="food-item-image-container">
-        <img className="food-item-image" src={image} alt="food-image" />
+        <img
+          className="food-item-image"
+          src={`${url}/images/${image}`}
+          alt="food-image"
+        />
         {!cartItems[_id] ? (
           <img
             className="add"
