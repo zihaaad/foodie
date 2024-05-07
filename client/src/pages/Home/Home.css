@@ -1,0 +1,32 @@
+.float-cart {
+  position: fixed;
+  z-index: 1;
+  bottom: 3rem;
+  right: 2rem;
+  padding: 0.8rem 1rem;
+  background-color: rgb(247, 193, 169);
+  border: 2px solid lightcoral;
+  box-shadow: lightcoral 0 0 5px;
+  border-radius: 50%;
+  animation: popUp 0.5s;
+  transform: scale(0.8);
+}
+
+.float-cart:hover {
+  transform: scale(1);
+  transition: all 0.5s ease-in-out;
+}
+
+@keyframes popUp {
+  0% {
+    transform: scale(0.5);
+    rotate: -30deg;
+  }
+  50% {
+    transform: scale(1);
+    rotate: 30deg;
+  }
+  100% {
+    transform: scale(0.8);
+  }
+}

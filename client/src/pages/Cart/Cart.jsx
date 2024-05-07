@@ -3,57 +3,65 @@ import "./Cart.css";
 import {StoreContext} from "../../context/StoreContext";
 import {Link, useNavigate} from "react-router-dom";
 import {url} from "../../utils/utils";
+import Loader from "../../utils/Loader";
 
 const Cart = () => {
-  const {cartItems, foodList, removeFromCart, getTotalCartAmmount} =
+  const {isLoading, cartItems, foodList, removeFromCart, getTotalCartAmmount} =
     useContext(StoreContext);
-
   const navigate = useNavigate();
 
   return (
     <section className="cart">
-      <div className="cart-item">
-        {!getTotalCartAmmount() || (
-          <div className="cart-items-title">
-            <p>Items</p>
-            <p>Title</p>
-            <p>Price</p>
-            <p>Quantity</p>
-            <p>Total</p>
-            <p>Remove</p>
-          </div>
-        )}
-        {!getTotalCartAmmount() && (
-          <div className="empty-cart">
-            <p>Your Cart is Empty</p>
-            <Link to={"/"}>Continue Ordering</Link>
-          </div>
-        )}
-        <br />
-        <hr />
-        {foodList?.map((item, idx) => {
-          if (cartItems[item._id] > 0) {
-            return (
-              <div>
-                <div key={idx} className="cart-items-title cart-items-item">
-                  <img
-                    src={`${url}/images/${item.image}`}
-                    alt="cart-item-image"
-                  />
-                  <p>{item.name}</p>
-                  <p>${item.price}</p>
-                  <p>{cartItems[item._id]}</p>
-                  <p>${item.price * cartItems[item._id]}</p>
-                  <p onClick={() => removeFromCart(item._id)} className="cross">
-                    x
-                  </p>
+      {isLoading ? (
+        <Loader size={50} />
+      ) : (
+        <div className="cart-item">
+          {!getTotalCartAmmount() || (
+            <div className="cart-items-title">
+              <p>Items</p>
+              <p>Title</p>
+              <p>Price</p>
+              <p>Quantity</p>
+              <p>Total</p>
+              <p>Remove</p>
+            </div>
+          )}
+          {!getTotalCartAmmount() && (
+            <div className="empty-cart">
+              <p>Your Cart is Empty</p>
+              <Link to={"/"}>Continue Ordering</Link>
+            </div>
+          )}
+          <br />
+          <hr />
+
+          {foodList?.map((item, idx) => {
+            if (cartItems[item._id] > 0) {
+              return (
+                <div key={idx}>
+                  <div className="cart-items-title cart-items-item">
+                    <img
+                      src={`${url}/images/${item.image}`}
+                      alt="cart-item-image"
+                    />
+                    <p>{item.name}</p>
+                    <p>${item.price}</p>
+                    <p>{cartItems[item._id]}</p>
+                    <p>${item.price * cartItems[item._id]}</p>
+                    <p
+                      onClick={() => removeFromCart(item._id)}
+                      className="cross">
+                      X
+                    </p>
+                  </div>
+                  <hr />
                 </div>
-                <hr />
-              </div>
-            );
-          }
-        })}
-      </div>
+              );
+            }
+          })}
+        </div>
+      )}
+
       <div className="cart-bottom">
         <div className="cart-total">
           <h2>Cart Total</h2>

@@ -1,10 +1,15 @@
 import {useContext} from "react";
+import "./FoodDisplay.css";
+import Loader from "../../utils/Loader";
 import {StoreContext} from "../../context/StoreContext";
 import FoodItem from "../FoodItem/FoodItem";
-import "./FoodDisplay.css";
 
 const FoodDisplay = ({category}) => {
-  const {foodList} = useContext(StoreContext);
+  const {foodList, isLoading} = useContext(StoreContext);
+
+  if (isLoading) {
+    return <Loader size={100} />;
+  }
 
   return (
     <section className="food-display" id="food-display">

@@ -8,17 +8,34 @@ export const StoreContextProvider = ({children}) => {
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState("");
   const [foodList, setFoodList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const addToCart = (itemId) => {
+  const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
       setCartItems((prev) => ({...prev, [itemId]: 1}));
     } else {
       setCartItems((prev) => ({...prev, [itemId]: prev[itemId] + 1}));
     }
+    if (token) {
+      await axios.post(url + "/api/cart/add", {itemId}, {headers: {token}});
+    }
   };
 
-  const removeFromCart = (itemId) => {
+  const removeFromCart = async (itemId) => {
     setCartItems((prev) => ({...prev, [itemId]: prev[itemId] - 1}));
+    if (token) {
+      await axios.post(url + "/api/cart/remove", {itemId}, {headers: {token}});
+    }
+  };
+
+  const loadCartData = async (token) => {
+    await axios
+      .get(url + "/api/cart", {headers: {token}})
+      .then((res) => {
+        setCartItems(res.data.data);
+        setIsLoading(false);
+      })
+      .catch(() => setIsLoading(false));
   };
 
   const getTotalCartAmmount = () => {
@@ -32,14 +49,20 @@ export const StoreContextProvider = ({children}) => {
     return totalAmmount;
   };
 
-  useEffect(async () => {
+  useEffect(() => {
+    setIsLoading(true);
     const localToken = localStorage.getItem("token");
-    await axios.get(`${url}/api/food`).then((res) => {
-      setFoodList(res.data.data);
-    });
+    async function loadFoodList() {
+      await axios.get(`${url}/api/food`).then((res) => {
+        setFoodList(res.data.data);
+        setIsLoading(false);
+      });
+    }
     if (localToken) {
       setToken(localToken);
+      loadCartData(localToken);
     }
+    loadFoodList();
   }, []);
 
   const contextValue = {
@@ -49,6 +72,7 @@ export const StoreContextProvider = ({children}) => {
     addToCart,
     removeFromCart,
     getTotalCartAmmount,
+    isLoading,
     token,
     setToken,
   };

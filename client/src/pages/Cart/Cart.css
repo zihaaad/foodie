@@ -82,6 +82,13 @@
   transform: scale(1.05);
 }
 
+.cross {
+  width: fit-content;
+  padding: 0 10px;
+  border: 1px solid #55555582;
+  border-radius: 10px;
+}
+
 .cart-total button {
   border: none;
   font-weight: 500;
