@@ -43,7 +43,7 @@ const AddFood = () => {
       .catch((err) => {
         setIsLoading(false);
         toast.error("Failed to add food!");
-        console.log(err);
+        // console.log(err);
       });
   };
 

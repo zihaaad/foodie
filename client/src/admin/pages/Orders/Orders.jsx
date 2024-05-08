@@ -5,6 +5,7 @@ import {url} from "../../../utils/utils";
 import {StoreContext} from "../../../context/StoreContext";
 import Loader from "../../../utils/Loader";
 import {assets} from "../../../utils/assets.js";
+import {toast} from "react-toastify";
 
 const Orders = () => {
   const {token} = useContext(StoreContext);
@@ -21,6 +22,25 @@ const Orders = () => {
       setOrders(res.data.data);
     } else {
       setIsLoading(false);
+    }
+  };
+
+  const statusHandler = async (event, orderId) => {
+    const res = await axios.patch(
+      url + `/api/order/order-status/${orderId}`,
+      {
+        status: event.target.value,
+      },
+      {
+        headers: {token},
+      }
+    );
+
+    if (res.data.success) {
+      await fetchAllOrders();
+      toast.success(res.data.message);
+    } else {
+      toast.error(res.data.message);
     }
   };
 
@@ -70,10 +90,12 @@ const Orders = () => {
             </div>
             <p>Items: {order.items.length}</p>
             <p>${order.amount}</p>
-            <select>
+            <select
+              onChange={(event) => statusHandler(event, order._id)}
+              value={order.status}>
               <option value="Processing">Processing</option>
-              <option value="Processing">Out for Delivery</option>
-              <option value="Processing">Delivered</option>
+              <option value="Out for Delivery">Out for Delivery</option>
+              <option value="Delivered">Delivered</option>
             </select>
           </div>
         ))}

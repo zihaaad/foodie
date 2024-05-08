@@ -29,7 +29,7 @@ const MyOrders = () => {
     if (token) {
       fetchOrders();
     }
-    console.log(data);
+    // console.log(data);
   }, [token]);
 
   if (isLoading) {
@@ -55,10 +55,14 @@ const MyOrders = () => {
               <p>${order.amount}.00</p>
               <p>Items: {order.items.length}</p>
               <p style={{display: "flex", gap: "5px"}}>
-                <span> &#x25cf; </span>
-                <b> {order.status}</b>
+                <span
+                  className={`${
+                    order.status == "Out for Delivery" && "out-for-delivery"
+                  } ${order.status == "Delivered" && "delivered"}`}>
+                  &#x25cf;
+                </span>
+                <b>{order.status}</b>
               </p>
-              <button>Track Order</button>
             </div>
           );
         })}

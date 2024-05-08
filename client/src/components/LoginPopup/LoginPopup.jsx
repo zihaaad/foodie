@@ -42,7 +42,7 @@ const LoginPopup = ({setShowLogin}) => {
       }
     } catch (error) {
       toast.error("failed to authenticate");
-      console.log(error);
+      // console.log(error);
     }
   };
 
