@@ -21,7 +21,7 @@ const addFood = async (req, res) => {
       message: "Food Added Successfully",
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     fs.unlink(`uploads/${image}`, () => {});
     res.json({
       success: false,
@@ -40,7 +40,7 @@ const listFood = async (req, res) => {
       data: foods,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.json({
       success: false,
       message: "Failed to Retrieve Food",
@@ -61,7 +61,7 @@ const removeFood = async (req, res) => {
       message: "Food is Removed Successfully",
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.json({success: false, message: "Failed To Remove Food"});
   }
 };

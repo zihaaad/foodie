@@ -80,7 +80,7 @@ const verifyOrder = async (req, res) => {
       res.json({success: false, message: "Unsuccessful Payment"});
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.json({success: false, message: "Unsuccessful Payment"});
   }
 };
@@ -95,7 +95,7 @@ const getMyOrders = async (req, res) => {
       data: orders,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.json({
       success: false,
       message: "Something went Wrong",
@@ -113,7 +113,7 @@ const orderList = async (req, res) => {
       data: orders,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.json({
       success: false,
       message: "something went wrong in server",
@@ -121,4 +121,21 @@ const orderList = async (req, res) => {
   }
 };
 
-export {placeOrder, verifyOrder, getMyOrders, orderList};
+// order status update api for admin panel
+const updateOrderStatus = async (req, res) => {
+  const {orderId} = req.params;
+  const {status} = req.body;
+
+  try {
+    await orderModel.findByIdAndUpdate(orderId, {status});
+    res.json({
+      success: true,
+      message: `Status Updated To ${status}`,
+    });
+  } catch (error) {
+    // console.log(error);
+    res.json({success: false, message: "something went wrong"});
+  }
+};
+
+export {placeOrder, verifyOrder, getMyOrders, orderList, updateOrderStatus};

@@ -29,7 +29,7 @@ const loginUser = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.json({
       success: false,
       message: "Failed To Login",
@@ -80,7 +80,7 @@ const registerUser = async (req, res) => {
       token,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.json({
       success: false,
       message: "User Registration Failed",
