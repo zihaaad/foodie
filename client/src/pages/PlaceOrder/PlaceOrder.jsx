@@ -1,28 +1,100 @@
 import {useContext} from "react";
 import "./PlaceOrder.css";
 import {StoreContext} from "../../context/StoreContext";
+import {useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {toast} from "react-toastify";
+import {url} from "../../utils/utils";
 
 const PlaceOrder = () => {
-  const {getTotalCartAmmount} = useContext(StoreContext);
+  const navigate = useNavigate();
+  const {getTotalCartAmmount, foodList, cartItems, token} =
+    useContext(StoreContext);
+  const {register, handleSubmit} = useForm();
+
+  const onSubmit = async (data) => {
+    let orderItems = [];
+    foodList.map((item) => {
+      if (cartItems[item._id] > 0) {
+        let itemInfo = item;
+        itemInfo["quantity"] = cartItems[item._id];
+        orderItems.push(itemInfo);
+      }
+    });
+    const orderData = {
+      address: data,
+      items: orderItems,
+      amount: Number(getTotalCartAmmount() + 2),
+    };
+    const res = await axios.post(
+      url + "/api/order/place-order",
+      {orderData},
+      {headers: {token}}
+    );
+    if (res.data.success) {
+      const {session_url} = res.data;
+      window.location.replace(session_url);
+    } else {
+      toast.error("Failed To Payment");
+    }
+  };
+
   return (
-    <form className="place-order">
+    <form onSubmit={handleSubmit(onSubmit)} className="place-order">
       <div className="place-order-left">
         <p className="title">Delivery Information</p>
         <div className="multi-fields">
-          <input type="text" placeholder="First Name" />
-          <input type="text" placeholder="Last Name" />
+          <input
+            {...register("firstName", {required: true})}
+            type="text"
+            placeholder="First Name"
+          />
+          <input
+            {...register("lastName", {required: true})}
+            type="text"
+            placeholder="Last Name"
+          />
         </div>
-        <input type="=email" placeholder="Email Address" />
-        <input type="text" placeholder="Street" />
+        <input
+          {...register("email", {required: true})}
+          type="email"
+          placeholder="Email Address"
+        />
+        <input
+          {...register("street", {required: true})}
+          type="text"
+          placeholder="Street"
+        />
         <div className="multi-fields">
-          <input type="text" placeholder="City" />
-          <input type="text" placeholder="State" />
+          <input
+            {...register("city", {required: true})}
+            type="text"
+            placeholder="City"
+          />
+          <input
+            {...register("state", {required: true})}
+            type="text"
+            placeholder="State"
+          />
         </div>
         <div className="multi-fields">
-          <input type="text" placeholder="Zip code" />
-          <input type="text" placeholder="Country" />
+          <input
+            {...register("zipcode", {required: true})}
+            type="text"
+            placeholder="Zip code"
+          />
+          <input
+            {...register("country", {required: true})}
+            type="text"
+            placeholder="Country"
+          />
         </div>
-        <input type="text" placeholder="Phone" />
+        <input
+          {...register("phone", {required: true})}
+          type="text"
+          placeholder="Phone"
+        />
       </div>
       <div className="place-order-right">
         <div className="cart-total">
@@ -44,7 +116,9 @@ const PlaceOrder = () => {
                 ${getTotalCartAmmount() > 0 ? getTotalCartAmmount() + 2 : 0}
               </b>
             </div>
-            <button onClick={() => navigate("/order")}>
+            <button
+              disabled={!getTotalCartAmmount()}
+              onClick={() => navigate("/order")}>
               PROCEED TO PAYMENT
             </button>
           </div>

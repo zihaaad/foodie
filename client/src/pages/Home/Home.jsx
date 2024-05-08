@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <>
-      {getTotalCartAmmount() && (
+      {!getTotalCartAmmount() || (
         <>
           <Link className="float-cart" to={"/cart"}>
             <img src={assets.basket_icon} alt="" />

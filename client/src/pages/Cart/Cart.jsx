@@ -82,7 +82,9 @@ const Cart = () => {
                 ${getTotalCartAmmount() > 0 ? getTotalCartAmmount() + 2 : 0}
               </b>
             </div>
-            <button onClick={() => navigate("/order")}>
+            <button
+              disabled={!getTotalCartAmmount()}
+              onClick={() => navigate("/order")}>
               PROCEED TO CHECKOUT
             </button>
           </div>

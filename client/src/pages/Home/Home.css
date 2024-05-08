@@ -1,12 +1,12 @@
 .float-cart {
   position: fixed;
   z-index: 1;
-  bottom: 3rem;
-  right: 2rem;
+  bottom: max(3vw, 22px);
+  right: max(2vw, 18px);
   padding: 0.8rem 1rem;
-  background-color: rgb(247, 193, 169);
-  border: 2px solid lightcoral;
-  box-shadow: lightcoral 0 0 5px;
+  background-color: rgb(250, 214, 198);
+  border: 2px solid rgba(240, 128, 128, 0.836);
+  box-shadow: rgba(240, 128, 128, 0.653) 0 0 10px;
   border-radius: 50%;
   animation: popUp 0.5s;
   transform: scale(0.8);
@@ -14,7 +14,7 @@
 
 .float-cart:hover {
   transform: scale(1);
-  transition: all 0.5s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 @keyframes popUp {

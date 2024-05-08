@@ -7,6 +7,8 @@ import RootLayout from "../layout/RootLayout";
 import AddFood from "../admin/pages/AddFood/AddFood";
 import {FoodList} from "../admin/pages/FoodList/FoodList";
 import Orders from "../admin/pages/Orders/Orders";
+import MyOrders from "../pages/MyOrders/MyOrders";
+import Verify from "../pages/Verify/Verify";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <PlaceOrder />,
+      },
+      {
+        path: "/verify",
+        element: <Verify />,
+      },
+      {
+        path: "myorders",
+        element: <MyOrders />,
       },
     ],
   },
