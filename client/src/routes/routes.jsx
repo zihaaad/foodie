@@ -9,6 +9,7 @@ import {FoodList} from "../admin/pages/FoodList/FoodList";
 import Orders from "../admin/pages/Orders/Orders";
 import MyOrders from "../pages/MyOrders/MyOrders";
 import Verify from "../pages/Verify/Verify";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/order",
-        element: <PlaceOrder />,
+        element: (
+          <ProtectedRoute>
+            <PlaceOrder />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/verify",
@@ -33,7 +38,11 @@ const router = createBrowserRouter([
       },
       {
         path: "myorders",
-        element: <MyOrders />,
+        element: (
+          <ProtectedRoute>
+            <MyOrders />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

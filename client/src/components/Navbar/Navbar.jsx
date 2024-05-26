@@ -4,9 +4,10 @@ import "./Navbar.css";
 import {Link, useNavigate} from "react-router-dom";
 import {StoreContext} from "../../context/StoreContext";
 
-const Navbar = ({setShowLogin}) => {
+const Navbar = () => {
   const navigate = useNavigate();
-  const {getTotalCartAmmount, setToken, token} = useContext(StoreContext);
+  const {getTotalCartAmmount, setToken, token, setShowLogin} =
+    useContext(StoreContext);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -24,6 +25,7 @@ const Navbar = ({setShowLogin}) => {
         <a href="#explore-menu">Menu</a>
         <a href="#app-download">Mobile App</a>
         <a href="#footer">Contact Us</a>
+        {token && <Link to="/myorders">Orders</Link>}
       </ul>
       <div className="navbar-right">
         <img src={assets.search_icon} alt="" />

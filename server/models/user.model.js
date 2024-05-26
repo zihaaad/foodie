@@ -10,6 +10,15 @@ const userSchema = new mongoose.Schema(
   {minimize: false}
 );
 
+const adminSchema = new mongoose.Schema({
+  name: {type: String, require: true},
+  email: {type: String, require: true},
+  password: {type: String, require: true},
+});
+
+export const adminModel =
+  mongoose.models.admin || mongoose.model("admin", adminSchema);
+
 const userModel = mongoose.models.user || mongoose.model("user", userSchema);
 
 export default userModel;

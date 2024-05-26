@@ -1,4 +1,4 @@
-import userModel from "../models/user.model.js";
+import userModel, {adminModel} from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import {generateToken} from "../utils/generateToken.js";
@@ -6,7 +6,10 @@ import {generateToken} from "../utils/generateToken.js";
 const loginUser = async (req, res) => {
   const {email, password} = req.body;
   try {
-    const user = await userModel.findOne({email});
+    const user =
+      (await userModel.findOne({email}).select("-password")) ||
+      (await adminModel.findOne({email}).select("-password"));
+
     if (!user) {
       return res.json({
         success: false,
@@ -15,6 +18,7 @@ const loginUser = async (req, res) => {
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);
+
     if (!isPasswordMatch) {
       return res.json({
         success: false,
@@ -23,14 +27,14 @@ const loginUser = async (req, res) => {
     }
 
     const token = generateToken(user._id);
-    res.json({
+    return res.json({
       success: true,
       message: "User Logged In Successfully",
       token,
     });
   } catch (error) {
-    // console.log(error);
-    res.json({
+    console.log(error);
+    return res.json({
       success: false,
       message: "Failed To Login",
     });

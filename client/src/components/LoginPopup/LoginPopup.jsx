@@ -6,9 +6,9 @@ import axios from "axios";
 import {StoreContext} from "../../context/StoreContext";
 import {toast} from "react-toastify";
 
-const LoginPopup = ({setShowLogin}) => {
+const LoginPopup = () => {
   const [currentSate, setCurrentState] = useState("Login");
-  const {setToken, token} = useContext(StoreContext);
+  const {setToken, setShowLogin, token} = useContext(StoreContext);
   const [data, setData] = useState({
     name: "",
     email: "",

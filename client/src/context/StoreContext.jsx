@@ -9,6 +9,7 @@ export const StoreContextProvider = ({children}) => {
   const [token, setToken] = useState("");
   const [foodList, setFoodList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
 
   const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
@@ -75,6 +76,8 @@ export const StoreContextProvider = ({children}) => {
     isLoading,
     token,
     setToken,
+    showLogin,
+    setShowLogin,
   };
 
   return (
