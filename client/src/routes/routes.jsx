@@ -10,6 +10,7 @@ import Orders from "../admin/pages/Orders/Orders";
 import MyOrders from "../pages/MyOrders/MyOrders";
 import Verify from "../pages/Verify/Verify";
 import ProtectedRoute from "./ProtectedRoute";
+import ProtectedAdminRoute from "./ProtectedAdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/order",
@@ -34,7 +39,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/verify",
-        element: <Verify />,
+        element: (
+          <ProtectedRoute>
+            <Verify />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "myorders",
@@ -48,7 +57,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin-panel",
-    element: <AdminLayout />,
+    element: (
+      <ProtectedAdminRoute>
+        <AdminLayout />
+      </ProtectedAdminRoute>
+    ),
     children: [
       {
         path: "add-food",

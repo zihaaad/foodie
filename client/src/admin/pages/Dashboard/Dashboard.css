@@ -1,0 +1,10 @@
+.dashboard {
+  width: 70%;
+  margin-left: max(5vw, 25px);
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.heading {
+  font-size: 2rem;
+}

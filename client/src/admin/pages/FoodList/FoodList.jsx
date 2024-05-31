@@ -23,7 +23,6 @@ export const FoodList = () => {
 
   return (
     <div className="list add flex-col">
-      <p style={{fontSize: "1.5rem", fontWeight: 600}}>All Foods List</p>
       <div className="list-table">
         <div className="list-table-format title">
           <b>Image</b>

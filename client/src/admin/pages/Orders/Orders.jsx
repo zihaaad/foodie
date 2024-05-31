@@ -56,7 +56,6 @@ const Orders = () => {
 
   return (
     <div className="order add">
-      <h3>Order Page</h3>
       <div className="order-list">
         {orders.map((order, idx) => (
           <div key={idx} className="order-item">

@@ -22,7 +22,7 @@
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 2rem;
 }
 
 .navbar button {

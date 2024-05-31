@@ -10,6 +10,7 @@ export const StoreContextProvider = ({children}) => {
   const [foodList, setFoodList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
@@ -21,7 +22,6 @@ export const StoreContextProvider = ({children}) => {
       await axios.post(url + "/api/cart/add", {itemId}, {headers: {token}});
     }
   };
-
   const removeFromCart = async (itemId) => {
     setCartItems((prev) => ({...prev, [itemId]: prev[itemId] - 1}));
     if (token) {
@@ -33,7 +33,7 @@ export const StoreContextProvider = ({children}) => {
     await axios
       .get(url + "/api/cart", {headers: {token}})
       .then((res) => {
-        setCartItems(res.data.data);
+        setCartItems(res.data.data || {});
         setIsLoading(false);
       })
       .catch(() => setIsLoading(false));
@@ -60,9 +60,11 @@ export const StoreContextProvider = ({children}) => {
       });
     }
     if (localToken) {
+      setIsAdmin(true);
       setToken(localToken);
       loadCartData(localToken);
     }
+
     loadFoodList();
   }, []);
 
@@ -78,6 +80,8 @@ export const StoreContextProvider = ({children}) => {
     setToken,
     showLogin,
     setShowLogin,
+    isAdmin,
+    setIsAdmin,
   };
 
   return (

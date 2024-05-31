@@ -4,6 +4,7 @@ import Navbar from "../admin/components/Navbar/Navbar";
 import Sidebar from "../admin/components/Sidebar/Sidebar";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Dashboard from "../admin/pages/Dashboard/Dashboard";
 
 export const AdminLayout = () => {
   return (
@@ -13,6 +14,7 @@ export const AdminLayout = () => {
       <hr />
       <div className="admin-content">
         <Sidebar />
+        <Dashboard />
         <Outlet />
       </div>
     </>
