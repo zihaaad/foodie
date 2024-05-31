@@ -4,15 +4,14 @@ import {Navigate} from "react-router-dom";
 import Loader from "../utils/Loader";
 
 export default function ProtectedAdminRoute({children}) {
-  const {token, isLoading} = useContext(StoreContext);
+  const {token, isAdmin, isLoading} = useContext(StoreContext);
 
-  if (!token && isLoading) {
-    return <Loader />;
-  }
-
-  if (token && !isLoading && !isAdmin) {
+  if (isLoading) {
+    <Loader />;
+  } else if (!token) {
+    return <Navigate to={"/"} />;
+  } else if (!token || !isAdmin) {
     return <Navigate to={"/"} />;
   }
-
   return children;
 }

@@ -11,6 +11,7 @@ import MyOrders from "../pages/MyOrders/MyOrders";
 import Verify from "../pages/Verify/Verify";
 import ProtectedRoute from "./ProtectedRoute";
 import ProtectedAdminRoute from "./ProtectedAdminRoute";
+import Dashboard from "../admin/pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -64,9 +65,14 @@ const router = createBrowserRouter([
     ),
     children: [
       {
+        path: "",
+        element: <Dashboard />,
+      },
+      {
         path: "add-food",
         element: <AddFood />,
       },
+
       {
         path: "food-list",
         element: <FoodList />,

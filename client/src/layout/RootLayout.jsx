@@ -6,10 +6,14 @@ import LoginPopup from "../components/LoginPopup/LoginPopup";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {StoreContext} from "../context/StoreContext";
+import Loader from "../utils/Loader";
 
 const RootLayout = () => {
-  const {showLogin} = useContext(StoreContext);
-  console.log(showLogin);
+  const {showLogin, isLoading} = useContext(StoreContext);
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <ToastContainer />

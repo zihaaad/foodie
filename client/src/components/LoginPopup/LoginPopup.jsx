@@ -5,10 +5,11 @@ import {url} from "../../utils/utils";
 import axios from "axios";
 import {StoreContext} from "../../context/StoreContext";
 import {toast} from "react-toastify";
+import {Navigate} from "react-router-dom";
 
 const LoginPopup = () => {
   const [currentSate, setCurrentState] = useState("Login");
-  const {setToken, setShowLogin, token} = useContext(StoreContext);
+  const {setToken, setShowLogin, isLoading, isAdmin} = useContext(StoreContext);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -37,6 +38,7 @@ const LoginPopup = () => {
         localStorage.setItem("token", res.data.token);
         setShowLogin(false);
         toast.success(res.data.message);
+        if (isAdmin) return <Navigate to={"/admin-panel"} />;
       } else {
         toast.error(res.data.message);
       }

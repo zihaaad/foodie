@@ -1,6 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import axios from "axios";
 import {url} from "../utils/utils";
+import debounce from "lodash/debounce";
 
 export const StoreContext = createContext(null);
 
@@ -8,9 +9,14 @@ export const StoreContextProvider = ({children}) => {
   const [cartItems, setCartItems] = useState({});
   const [token, setToken] = useState("");
   const [foodList, setFoodList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(
+    localStorage.getItem("token") ? true : false
+  );
+
   const [showLogin, setShowLogin] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(
+    localStorage.getItem("isAdmin") || false
+  );
 
   const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
@@ -50,9 +56,30 @@ export const StoreContextProvider = ({children}) => {
     return totalAmmount;
   };
 
+  const localToken = localStorage.getItem("token");
+
   useEffect(() => {
-    setIsLoading(true);
-    const localToken = localStorage.getItem("token");
+    async function fetchAdminStatus() {
+      if (localToken) {
+        setIsLoading(true);
+        try {
+          const response = await axios.get(`${url}/api/user/admin`, {
+            headers: {token: localToken},
+          });
+          if (response.data.success) {
+            setIsAdmin(true);
+            localStorage.setItem("isAdmin", true);
+          } else {
+            setIsAdmin(false);
+          }
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    }
+
     async function loadFoodList() {
       await axios.get(`${url}/api/food`).then((res) => {
         setFoodList(res.data.data);
@@ -60,13 +87,15 @@ export const StoreContextProvider = ({children}) => {
       });
     }
     if (localToken) {
-      setIsAdmin(true);
       setToken(localToken);
       loadCartData(localToken);
+      fetchAdminStatus();
+    } else {
+      localStorage.removeItem("isAdmin");
     }
 
     loadFoodList();
-  }, []);
+  }, [localToken]);
 
   const contextValue = {
     foodList,
