@@ -7,8 +7,7 @@ const loginUser = async (req, res) => {
   const {email, password} = req.body;
   try {
     const user =
-      (await userModel.findOne({email}).select("-password")) ||
-      (await adminModel.findOne({email}).select("-password"));
+      (await userModel.findOne({email})) || (await adminModel.findOne({email}));
 
     if (!user) {
       return res.json({
@@ -92,4 +91,28 @@ const registerUser = async (req, res) => {
   }
 };
 
-export {loginUser, registerUser};
+const adminUser = async (req, res) => {
+  const {userId} = req.body;
+  try {
+    const user = await adminModel.findById(userId).select("-password");
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User Doesn't Exist",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "This is an Admin Account",
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "Failed To Login",
+    });
+  }
+};
+
+export {loginUser, registerUser, adminUser};

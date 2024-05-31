@@ -88,7 +88,7 @@ const verifyOrder = async (req, res) => {
 const getMyOrders = async (req, res) => {
   const {userId} = req.body;
   try {
-    const orders = await orderModel.find({userId});
+    const orders = await orderModel.find({userId}).sort({date: -1});
     res.json({
       success: true,
       message: "Orders Retrived Successfully",
@@ -106,7 +106,7 @@ const getMyOrders = async (req, res) => {
 // order list for admin panel
 const orderList = async (req, res) => {
   try {
-    const orders = await orderModel.find({});
+    const orders = await orderModel.find({}).sort({date: -1});
     res.json({
       success: true,
       message: "Order List Retrieved Successfully",
